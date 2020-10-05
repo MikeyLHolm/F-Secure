@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os, requests, sys
+import schedule, time
 from datetime import datetime
 
 class ResponseInfo(object):
@@ -46,7 +47,7 @@ def run_requests():
         print (red + "Could not open/read file:" + file_name + endc)
         sys.exit()
 
-    print(yellow + 'Running requests' + endc)
+    print(yellow + 'Running requests: ' + str(datetime.now()) + endc)
     for web_site in web_sites:
         date_time_str = str(datetime.now())
         response = requests.get(web_site)
@@ -59,7 +60,13 @@ def run_requests():
 
 def main():
     # add intervals
-    run_requests()
+    schedule.every(5).seconds.do(run_requests)
+
+    # run_requests()
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
     print(green + 'Requests done. Logs are located at logs/monitor_log' + endc)
 
 if __name__ == '__main__':
