@@ -2,6 +2,7 @@
 import os, requests, sys
 import schedule, time
 from datetime import datetime
+from config_files import config
 
 class ResponseInfo(object):
     def __init__(self, date_time, web_site, response_status_code, response_time):
@@ -44,8 +45,7 @@ def run_requests():
     try:
         response_log = open(file_name, "a")
     except OSError:
-        print (red + "Could not open/read file:" + file_name + endc)
-        sys.exit()
+        sys.exit(red + "Could not open/read file:" + file_name + endc)
 
     print(yellow + 'Running requests: ' + str(datetime.now()) + endc)
     for web_site in web_sites:
@@ -59,13 +59,14 @@ def run_requests():
 
 
 def main():
+
+    # interval = config['check']['interval']
     # add intervals
-    # schedule.every(5).seconds.do(run_requests)
+    # schedule.every(interval).seconds.do(run_requests)
 
     # while True:
     #     schedule.run_pending()
     #     time.sleep(1)
-
     run_requests()
     print(green + 'Requests done. Logs are located at logs/monitor_log' + endc)
 
