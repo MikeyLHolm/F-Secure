@@ -17,6 +17,7 @@ green = '\033[92m'
 red = '\033[91m'
 yellow = '\033[93m'
 
+
 def get_response_object(date_time_str, response, web_site):
     response_status_code = response.status_code
     response_time = response.elapsed.total_seconds()
@@ -29,6 +30,16 @@ def log_response(response_log, response_object):
     response_log.write("Status code: " + response_object.status_code + '\n')
     response_log.write("Response time: " + response_object.response_time + "\n\n")
 
+# if after last / containt login return 1
+def parse_requirement(requirement, web_site):
+    if web_site.endswith('/'):
+        web_site = web_site[:-1]
+    address_end = web_site[web_site.rfind('/') + 1:]
+    if requirement in address_end:
+        return 1
+    else:
+        return 0
+
 # REMEMBER HTTP!
 def run_requests():
     web_sites = [
@@ -37,6 +48,12 @@ def run_requests():
         'https://www.python.org',
         'http://www.foobar.com/login'
     ]
+
+    if config['check']['requirement'] is not '':
+        requirement = config['check']['requirement']
+    else:
+        requirement = None
+
     if not os.path.isdir("logs/"):
         print(yellow + 'Creating logs/' + endc)
         os.mkdir("logs")
@@ -52,6 +69,9 @@ def run_requests():
         date_time_str = str(datetime.now())
         response = requests.get(web_site)
         response_object = get_response_object(date_time_str, response, web_site)
+        if requirement:
+            if not parse_requirement(requirement, response_object.web_site):
+                continue
         log_response(response_log, response_object)
 
     response_log.close
@@ -60,14 +80,15 @@ def run_requests():
 
 def main():
 
-    # interval = config['check']['interval']
-    # add intervals
-    # schedule.every(interval).seconds.do(run_requests)
+    checking_period = int(config['check']['checking_period'])
 
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(1)
-    run_requests()
+    if checking_period > 0:
+        schedule.every(checking_period).seconds.do(run_requests)
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
+    else:
+        run_requests()
     print(green + 'Requests done. Logs are located at logs/monitor_log' + endc)
 
 if __name__ == '__main__':

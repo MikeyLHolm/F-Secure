@@ -17,7 +17,15 @@ Dependant of the use of software. For ex a SW that runs every 24h it would be si
 to keep file open for 23h55mins after finishing with the requests in 5mins. So I chose to open
 and close the log at the start and end of request loop.
 
+Config.ini?
+	if checking_period > 0 loop requests for with interval of checking_period
+	else run requests once.
 
+	if requirement is empty run requests with no filters.
+	else filter final part of web site addresses with requirement:
+
+		e.g. requirement = login then everything including last '/' is removed and
+		then requirement.in(str).
 
 
 :: UPGRADES ::
@@ -27,3 +35,6 @@ Intervals?
 
 Log time?
 	Could have GMT added.
+
+Running requests: 2020-10-05 17:54:18.946163?
+	To be same as first request.
