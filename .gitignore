@@ -1,3 +1,6 @@
 .dist/
 .vscode/
+.DS_Store
+monitor_env/
 notes
+homework_swe_web_monitor.rtf
