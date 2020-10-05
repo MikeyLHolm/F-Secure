@@ -2,21 +2,32 @@
 import os, requests
 from datetime import datetime
 
-def log_response(date_time_str, response, site):
+class ResponseInfo(object):
+    def __init__(self, date_time, site, response_status_code, response_time):
+        self.date_time = date_time
+        self.web_site = site
+        self.status_code = response_status_code
+        self.response_time = response_time
+
+blue = '\033[94m'
+endc = '\033[0m'
+green = '\033[92m'
+red = '\033[91m'
+yellow = '\033[93m'
+
+
+def log_response(date_time_str, response, response_log, site):
     response_status_code = response.status_code
     response_time = response.elapsed.total_seconds()
-    # print(response_status_code)
-    # print(response_time)
 
-    # better to open and close outside and use this to just write??
-    response_log = open(os.path.join("logs/", "monitor_log"), "a")
-    response_log.write("\n______________________________________\n")
     response_log.write(date_time_str)
-    response_log.write("\n\t" + site )
-    response_log.write("\n\tStatus code: " + str(response_status_code))
-    response_log.write("\n\tResponse time: " + str(response_time))
-    response_log.write("\n______________________________________\n")
-    response_log.close
+    response_log.write("\n" + site )
+    response_log.write("\nStatus code: " + str(response_status_code))
+    response_log.write("\nResponse time: " + str(response_time) + "\n\n")
+
+    response_object = ResponseInfo(date_time_str, site, response_status_code, response_time)
+    response_object
+    print(response_object.date_time)
 
 # REMEMBER HTTP!
 def run_requests():
@@ -27,27 +38,21 @@ def run_requests():
         'https://www.python.org',
         'http://www.foobar.com/login'
     ]
+
+    response_log = open(os.path.join("logs/", "monitor_log"), "a")
     for site in web_sites:
-        #print(site)
         response = requests.get(site)
         date_time_str = str(datetime.now())
-        log_response(date_time_str, response, site)
-    #print(web_sites)
-    # r = requests.get('https://www.python.org')
-    # r_status_code = r.status_code
-    # r_response_time = r.elapsed.total_seconds()
-    # print(r_status_code)
-    # print(r_response_time)
-    # r = requests.get('http://www.foobar.com/login')
-    # print(r.status_code)
-    # print(r.elapsed.total_seconds())
+        log_response(date_time_str, response, response_log, site)
+
+    response_log.close
 
 
 
 def main():
-    print('Running list of websites')
+    print(yellow + 'Running requests' + endc)
     run_requests()
-
+    print(green + 'Requests done. Logs are located at logs/monitor_log' + endc)
 
 if __name__ == '__main__':
     main()
