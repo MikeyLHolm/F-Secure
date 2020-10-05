@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 import os, requests
+from datetime import datetime
 
-def log_response(response, site):
+def log_response(date_time_str, response, site):
     response_status_code = response.status_code
     response_time = response.elapsed.total_seconds()
     # print(response_status_code)
@@ -9,9 +10,11 @@ def log_response(response, site):
 
     # better to open and close outside and use this to just write??
     response_log = open(os.path.join("logs/", "monitor_log"), "a")
-    response_log.write("______________________________________\n\n" + site )
-    response_log.write("\nStatus code: " + str(response_status_code))
-    response_log.write("\nResponse time: " + str(response_time))
+    response_log.write("\n______________________________________\n")
+    response_log.write(date_time_str)
+    response_log.write("\n\t" + site )
+    response_log.write("\n\tStatus code: " + str(response_status_code))
+    response_log.write("\n\tResponse time: " + str(response_time))
     response_log.write("\n______________________________________\n")
     response_log.close
 
@@ -27,7 +30,8 @@ def run_requests():
     for site in web_sites:
         #print(site)
         response = requests.get(site)
-        log_response(response, site)
+        date_time_str = str(datetime.now())
+        log_response(date_time_str, response, site)
     #print(web_sites)
     # r = requests.get('https://www.python.org')
     # r_status_code = r.status_code
