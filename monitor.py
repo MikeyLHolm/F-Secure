@@ -60,13 +60,13 @@ def run_requests():
 
 def main():
     # add intervals
-    schedule.every(5).seconds.do(run_requests)
+    # schedule.every(5).seconds.do(run_requests)
 
-    # run_requests()
-    while True:
-        schedule.run_pending()
-        time.sleep(1)
+    # while True:
+    #     schedule.run_pending()
+    #     time.sleep(1)
 
+    run_requests()
     print(green + 'Requests done. Logs are located at logs/monitor_log' + endc)
 
 if __name__ == '__main__':
