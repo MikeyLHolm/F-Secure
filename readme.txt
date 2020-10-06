@@ -25,7 +25,9 @@ Config.ini?
 	else filter final part of web site addresses with requirement:
 
 		e.g. requirement = login then everything including last '/' is removed and
-		then requirement.in(str).
+		then comparison requirement.in(remainder_of_str) is done.
+
+			One exception remains: if '/' is last char of string it is being removed before the previous section.
 
 
 :: UPGRADES ::
