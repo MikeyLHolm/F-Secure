@@ -17,5 +17,5 @@ def log_timeout(date_time_str,response_log, url):
 def log_too_many_redirects(date_time_str,response_log, url):
     response_log.write(date_time_str + '\n')
     response_log.write(url + '\n')
-    response_log.write('Status message: Timeout after 5s\n\n')
-    print(red + 'Anomaly in request: Timeout' + endc)
+    response_log.write('Status message: More than 3 redirects\n\n')
+    print(red + 'Anomaly in request: Too many redirects' + endc)

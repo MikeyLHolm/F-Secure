@@ -46,6 +46,7 @@ Running requests: 2020-10-05 17:54:18.946163?
 Run program in Crontab?
 
 Separate log for not 200 status codes?
+    -flag operated?
 
 Flag to manipulate Interval time?
 
