@@ -1,9 +1,3 @@
-blue = '\033[94m'
-endc = '\033[0m'
-green = '\033[92m'
-red = '\033[91m'
-yellow = '\033[93m'
-
 class ResponseInfo(object):
     def __init__(self, date_time, url, response_status_code, response_status_msg, response_time):
         self.date_time = date_time
@@ -19,11 +13,3 @@ def get_response_object(date_time_str, response, url):
     response_object = ResponseInfo(date_time_str, url, response_status_code,
                                    response_status_msg, response_time)
     return response_object
-
-def log_response(response_log, response_object):
-    response_log.write(response_object.date_time + '\n')
-    response_log.write(response_object.url + '\n')
-    response_log.write("Status code: " + str(response_object.status_code) + '\n')
-    if response_object.status_msg:
-        response_log.write("Status message: " + response_object.status_msg + '\n')
-    response_log.write("Response time: " + str(response_object.response_time) + "\n\n")

@@ -29,6 +29,8 @@ Status Codes: 301,302,303, 307, 308
 		See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
   		InsecureRequestWarning,
 
+Redirecting requests return 200 instead original redirect status code if redirect is OK.
+
 
 :: UPGRADES ::
 

@@ -1,14 +1,9 @@
 import os, requests, sys
-from config_files import config
+from config import config,blue,endc,green,red,yellow
 from datetime import datetime
-from response import get_response_object, log_response
-
-blue = '\033[94m'
-endc = '\033[0m'
-green = '\033[92m'
-red = '\033[91m'
-yellow = '\033[93m'
-
+from response import get_response_object
+from log_write import log_response,log_timeout
+requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
 def get_requirement():
     if config['check']['requirement'] is not '':
@@ -25,14 +20,12 @@ def filter_requirement(requirement, url):
     else:
         return 0
 
-def log_timeout(date_time_str,response_log, url):
-    response_log.write(date_time_str + '\n')
-    response_log.write(url + '\n')
-    response_log.write('Status message: Timeout after 5s\n\n')
-    print(red + 'Anomaly in request: Timeout' + endc)
-
 def send_requests():
-    web_sites = open('site_list_status_codes.txt').read().splitlines()
+    file_name = 'site_list_status_codes.txt'
+    try:
+        web_sites = open(file_name).read().splitlines()
+    except:
+        sys.exit(red + 'Could not open/read ' + file_name + endc)
     requirement = get_requirement()
 
     if not os.path.isdir("logs/"):
@@ -51,7 +44,7 @@ def send_requests():
         print(blue + 'Sending request to ' + url + endc)
         date_time_str = str(datetime.now())
         try:
-            response = requests.get(url, verify=False, timeout=5)
+            response = requests.get(url, allow_redirects=3, verify=False, timeout=5)
         except requests.exceptions.Timeout:
             log_timeout(date_time_str, response_log, url)
             continue
