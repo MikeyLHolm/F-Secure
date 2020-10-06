@@ -1,10 +1,3 @@
--
--
-- Flag to manipulate Interval time
-- read list from file
-- output to different type of log file (.csv/json)
-
-
 
 Storing response in object?
 
@@ -40,3 +33,11 @@ Log time?
 
 Running requests: 2020-10-05 17:54:18.946163?
 	To be same as first request.
+
+Run program in Crontab?
+
+Separate log for not 200 status codes?
+
+Flag to manipulate Interval time?
+
+Output to different type of log file (.csv/json)?

@@ -16,10 +16,10 @@ def get_requirement():
     else:
         return None
 
-def filter_requirement(requirement, web_site):
-    if web_site.endswith('/'):
-        web_site = web_site[:-1]
-    address_end = web_site[web_site.rfind('/') + 1:]
+def filter_requirement(requirement, url):
+    if url.endswith('/'):
+        url = url[:-1]
+    address_end = url[url.rfind('/') + 1:]
     if requirement in address_end:
         return 1
     else:
@@ -39,14 +39,17 @@ def send_requests():
     except OSError:
         sys.exit(red + "Could not open/read file:" + file_name + endc)
 
-    print(yellow + 'Running requests: ' + str(datetime.now()) + endc)
+    print(yellow + 'Sending requests: ' + str(datetime.now()) + endc)
 
-    for web_site in web_sites:
+    for url in web_sites:
+        print(blue + 'Sending request to ' + url + endc)
         date_time_str = str(datetime.now())
-        response = requests.get(web_site)
-        response_object = get_response_object(date_time_str, response, web_site)
+        response = requests.get(url)
+        if response.status_code is not 200:
+            print(red + 'Anomaly in status codes:', response.status_code, response.reason + endc)
+        response_object = get_response_object(date_time_str, response, url)
         if requirement:
-            if not filter_requirement(requirement, response_object.web_site):
+            if not filter_requirement(requirement, response_object.url):
                 continue
         log_response(response_log, response_object)
 
