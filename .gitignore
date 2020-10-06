@@ -2,6 +2,7 @@ __pycache__
 .dist/
 .vscode/
 .DS_Store
+logs/monitor_log
 monitor_env/
 notes
 homework_swe_web_monitor.rtf
