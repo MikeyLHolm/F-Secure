@@ -43,23 +43,18 @@ def request_loop(requirement, response_log,  url):
     log_response(response_log, response_object)
 
 def send_requests():
-
-    if not os.path.isdir("logs/"):
+    if not os.path.isdir('logs/'):
         print(yellow + 'Creating logs/' + endc)
-        os.mkdir("logs")
-
+        os.mkdir('logs')
     file_name = 'site_list.txt'
     try:
         web_sites = open(file_name).read().splitlines()
-        file_name = os.path.join("logs/", "monitor_log")
-        response_log = open(file_name, "a")
+        file_name = os.path.join('logs/', 'monitor_log')
+        response_log = open(file_name, 'a')
     except OSError:
         raise SystemExit(red + 'Could not open/read file: ' + file_name + endc)
-
     requirement = get_requirement()
     print(yellow + 'Sending requests: ' + str(datetime.now()) + endc)
-
     for url in web_sites:
         request_loop(requirement, response_log, url)
-
     response_log.close
