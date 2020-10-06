@@ -41,7 +41,7 @@ Few raised questions that remain:
 ### How to use
 Clone the repo:
 
-```https://github.com/MikeyLHolm/F-Secure.git```
+```git clone https://github.com/MikeyLHolm/F-Secure.git```
 
 Setuping virtual env from requirement.txt:
 
