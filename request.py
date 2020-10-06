@@ -25,8 +25,14 @@ def filter_requirement(requirement, url):
     else:
         return 0
 
+def log_timeout(date_time_str,response_log, url):
+    response_log.write(date_time_str + '\n')
+    response_log.write(url + '\n')
+    response_log.write('Status message: Timeout after 5s\n\n')
+    print(red + 'Anomaly in request: Timeout' + endc)
+
 def send_requests():
-    web_sites = open('site_list.txt').read().splitlines()
+    web_sites = open('site_list_status_codes.txt').read().splitlines()
     requirement = get_requirement()
 
     if not os.path.isdir("logs/"):
@@ -44,7 +50,16 @@ def send_requests():
     for url in web_sites:
         print(blue + 'Sending request to ' + url + endc)
         date_time_str = str(datetime.now())
-        response = requests.get(url)
+        try:
+            response = requests.get(url, verify=False, timeout=5)
+        except requests.exceptions.Timeout:
+            log_timeout(date_time_str, response_log, url)
+            continue
+        except requests.exceptions.TooManyRedirects:
+            print('Too any redirects')
+        except requests.exceptions.RequestException as e:
+            print('Sheeeet, Major Issues reporting to duty')
+            raise SystemExit(e)
         if response.status_code is not 200:
             print(red + 'Anomaly in status codes:', response.status_code, response.reason + endc)
         response_object = get_response_object(date_time_str, response, url)

@@ -22,6 +22,13 @@ Config.ini?
 
 			One exception remains: if '/' is last char of string it is being removed before the previous section.
 
+Status Codes: 301,302,303, 307, 308
+	Allowing following error msg:
+		InsecureRequestWarning: Unverified HTTPS request is being made to host 'httpstat.us'.
+		Adding certificate verification is strongly advised.
+		See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+  		InsecureRequestWarning,
+
 
 :: UPGRADES ::
 
