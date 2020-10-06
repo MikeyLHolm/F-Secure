@@ -3,9 +3,9 @@ Assignment for F-Secure Security Cloud team -application. Assignment can be foun
 
 ## My solution
 
-My goal was to make monitor flexible and modular. I chose Python due it being the most familiar language for me after C plus the insane versatility and simplicity. I'm not familiar with the various logging options in Python so I decided to do it by writing simple file with the necessary information.
+My goal was to make monitor easy to read, flexible and modular. Small functions without many purposes for each. I chose Python due it being the most familiar language for me after C plus the insane versatility and simplicity. I'm not familiar with the various logging options in Python so I decided to do it by writing simple file with the necessary information. It will log every response but only non-200 reponses are written in terminal as anomalies.
 
-I decided to store needed response data in a object. I felt its easier to manipulate the data later when its already in an object.
+I decided to store needed response data in a object. I felt its easier to manipulate the data later if the needs change when its already in an object.
 And its lots cleaner as well.
 
 Setuping program can be done at config.ini.
@@ -30,7 +30,8 @@ Setuping program can be done at config.ini.
 Few raised questions that remain:
 
 * Redirecting requests return 200 instead original redirect status code if redirect is OK. Would it be better to have the initial status code instead?
-* Opening and closing the log file. I chose to open and close the log at the start and end of request loop. If it runs continuouslyit would be better choice to keep the file open for whole duration I suppose.
+* Opening and closing the log file? I chose to open and close the log at the start and end of request loop. If it runs continuouslyit would be better choice to keep the file open for whole duration I suppose.
+* Optimal way of testing this kind of program? Unit tests work fine for something like an object but should responses be tested with mock?
 
 ### How to use
 Clone the repo:
