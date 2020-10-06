@@ -1,5 +1,91 @@
 # F-Secure
-Assignment for F-Secure Security Cloud team -application
+Assignment for F-Secure Security Cloud team -application. Assignment can be found after my solution.
+
+## My solution
+
+My goal was to make monitor flexible and modular. I chose Python due it being the most familiar language for me after C plus the insane versatility and simplicity. I'm not familiar with the various logging options in Python so I decided to do it by writing simple file with the necessary information.
+
+I decided to store needed response data in a object. I felt its easier to manipulate the data later when its already in an object.
+And its lots cleaner as well.
+
+Setuping program can be done at config.ini.
+
+	if checking_period > 0 loop requests for with interval of checking_period
+	else run requests once.
+  
+    content_requirement and filter_str work as one. Values should be given without '  or  ".
+    e.g. content_requirement = login
+
+    if content_requirement is present it is always used as filterer and searches response.text for match.
+
+	else filter final part of web site addresses with requirement:
+
+		e.g. requirement = login then everything including last '/' is removed and
+		then comparison requirement.in(remainder_of_str) is done.
+
+			One exception remains: if '/' is last char of string it is being removed before the previous section.
+
+    if both fields are empty, run requests with no filters.
+
+Few raised questions that remain:
+
+* Redirecting requests return 200 instead original redirect status code if redirect is OK. Would it be better to have the initial status code instead?
+* Opening and closing the log file. I chose to open and close the log at the start and end of request loop. If it runs continuouslyit would be better choice to keep the file open for whole duration I suppose.
+
+### How to use
+Clone the repo:
+
+```https://github.com/MikeyLHolm/F-Secure.git```
+
+Setuping virtual env from requirement.txt:
+
+```pip3 install -r requirements.txt```
+
+Activate virtual env:
+
+```source monitor_env/bin/activate```
+
+Setup config file:
+
+```
+[init]
+# When checking_period = 0 requests are sent only once. With values n > 0 software runs ~every n seconds unless runtime > n.
+
+checking_period = 0
+
+# 'content_requirement = login' would search response.text string for match to login for every request and only logging sites with found match.
+# Same for filter_str except it works only if content_req is empty. Filter_str searches matches from last part of url.
+
+content_requirement =
+filter_str =
+```
+
+Run activity monitor:
+
+```python3 monitor.py```
+
+Run unit tests for ReponseObject:
+
+```python3 test_object.py```
+
+Choosing different test file:
+
+```
+Edit row 34 in request.py
+file_name = 'site_list.txt'
+to match your file name in root of project.
+```
+
+### Possible Improvements
+* Intervals don't take into account running time of the request function. If running time of function if longer than checking_period it runs 1s after finishing with the ongoing function.
+* Log time could have GMT + 3 added if software is used in various timezones.
+* Initial running time isn't same as time when first response is sent.
+* Run program in Crontab.
+* Separate log for not 200 status codes? Perhaps -flag operated?
+* Ability to manipulate checking_period/content_requirement with flags from command line.
+* Output to different type of log file (.csv/json).
+
+# Original Task
 
 ## Coding Task Description
 
