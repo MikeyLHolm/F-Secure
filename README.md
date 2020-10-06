@@ -3,7 +3,8 @@ Assignment for F-Secure Security Cloud team -application. Assignment can be foun
 
 ## My solution
 
-My goal was to make monitor easy to read, flexible and modular. Small functions without many purposes for each. I chose Python due it being the most familiar language for me after C plus the insane versatility and simplicity. I'm not familiar with the various logging options in Python so I decided to do it by writing simple file with the necessary information. It will log every response but only non-200 reponses are written in terminal as anomalies.
+My goal was to make monitor easy to read, flexible and modular. Small functions without many purposes for each. I chose Python due it being the most familiar language for me after C plus the insane versatility and simplicity. And it was done in virtual env so you don't have to install all the unnecessary packages and can instead just install required ones from txt file. 
+I'm not familiar with the various logging options in Python so I decided to do it by writing simple file with the necessary information. It will log every response but only non-200 reponses are written in terminal as anomalies.
 
 I decided to store needed response data in a object. I felt its easier to manipulate the data later if the needs change when its already in an object.
 And its lots cleaner as well.
