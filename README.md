@@ -43,13 +43,9 @@ Clone the repo:
 
 ```git clone https://github.com/MikeyLHolm/F-Secure.git```
 
-Setuping virtual env from requirement.txt:
+Install necessary packages from requirement.txt:
 
 ```pip3 install -r requirements.txt```
-
-Activate virtual env:
-
-```source monitor_env/bin/activate```
 
 Setup config file:
 
