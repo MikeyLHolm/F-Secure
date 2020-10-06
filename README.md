@@ -10,22 +10,27 @@ And its lots cleaner as well.
 
 Setuping program can be done at config.ini.
 
-	if checking_period > 0 loop requests for with interval of checking_period
-	else run requests once.
+```
+if checking_period > 0 
+	loop requests for with interval of checking_period
+else 
+	run requests once. Initial value is 0.
   
-    content_requirement and filter_str work as one. Values should be given without '  or  ".
-    e.g. content_requirement = login
+content_requirement and filter_str work as one. Values should be given without '  or  ".
+e.g. content_requirement = login
 
-    if content_requirement is present it is always used as filterer and searches response.text for match.
+if content_requirement 
+	it is always used as filterer and searches response.text for match.
+elif filter_str
+	use filter_str as filterer for final part of web site addresses with requirement:
+	e.g. filter_str = login
+	then everything including last '/' is removed ('http://www.foobar.com/login' would leave 'login')
+	then comparison filter_str.in(remainder_of_url) is done.
 
-	else filter final part of web site addresses with requirement:
-
-		e.g. requirement = login then everything including last '/' is removed and
-		then comparison requirement.in(remainder_of_str) is done.
-
-			One exception remains: if '/' is last char of string it is being removed before the previous section.
-
-    if both fields are empty, run requests with no filters.
+	One exception remains: if '/' is last char of string it is being removed before the previous section.
+else
+	as both fields are empty, run requests with no filters.
+```
 
 Few raised questions that remain:
 
