@@ -1,26 +1,12 @@
 import os, requests, sys
-from config import config, blue, endc, green, red, yellow
+from config import blue, endc, green, red, yellow
 from datetime import datetime
-from response import get_response_object
 from log_write import log_response, log_timeout, log_too_many_redirects
+from response import get_response_object
+from filters import use_filters
 requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
 
-def get_requirement():
-    if config['check']['requirement'] is not '':
-        return config['check']['requirement']
-    else:
-        return None
-
-def filter_requirement(requirement, url):
-    if url.endswith('/'):
-        url = url[:-1]
-    address_end = url[url.rfind('/') + 1:]
-    if requirement in address_end:
-        return 1
-    else:
-        return 0
-
-def request_loop(requirement, response_log,  url):
+def request_loop(response_log,  url):
     print(blue + 'Sending request to ' + url + endc)
     date_time_str = str(datetime.now())
     try:
@@ -37,9 +23,8 @@ def request_loop(requirement, response_log,  url):
     if response.status_code is not 200:
         print(red + 'Anomaly in status codes:', response.status_code, response.reason + endc)
     response_object = get_response_object(date_time_str, response, url)
-    if requirement:
-        if not filter_requirement(requirement, response_object.url):
-            return
+    if use_filters(response_object) is 0:
+        return
     log_response(response_log, response_object)
 
 def send_requests():
@@ -53,8 +38,8 @@ def send_requests():
         response_log = open(file_name, 'a')
     except OSError:
         raise SystemExit(red + 'Could not open/read file: ' + file_name + endc)
-    requirement = get_requirement()
+    web_sites = [x.strip(' ') for x in web_sites if x]
     print(yellow + 'Sending requests: ' + str(datetime.now()) + endc)
     for url in web_sites:
-        request_loop(requirement, response_log, url)
+        request_loop(response_log, url)
     response_log.close

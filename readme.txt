@@ -6,15 +6,18 @@ Storing response in object?
 
 Opening and closing of file?
 
-Dependant of the use of software. For ex a SW that runs every 24h it would be silly
-to keep file open for 23h55mins after finishing with the requests in 5mins. So I chose to open
-and close the log at the start and end of request loop.
+    I chose to open and close the log at the start and end of request loop. If it runs continuously
+    it would be better choice to keep the file open for whole duration.
 
 Config.ini?
 	if checking_period > 0 loop requests for with interval of checking_period
 	else run requests once.
 
-	if requirement is empty run requests with no filters.
+    content_requirement and filter_str work as one. Values should be given without '  or  ".
+    e.g. content_requirement = login
+
+    if content_requirement is present it is always used as filterer and searches response.text for match.
+
 	else filter final part of web site addresses with requirement:
 
 		e.g. requirement = login then everything including last '/' is removed and
@@ -22,15 +25,13 @@ Config.ini?
 
 			One exception remains: if '/' is last char of string it is being removed before the previous section.
 
-Status Codes: 301,302,303, 307, 308
-	Allowing following error msg:
-		InsecureRequestWarning: Unverified HTTPS request is being made to host 'httpstat.us'.
-		Adding certificate verification is strongly advised.
-		See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
-  		InsecureRequestWarning,
+    if both fields are empty, run requests with no filters.
+
 
 Redirecting requests return 200 instead original redirect status code if redirect is OK.
 
+Setuping virtual env from requirement.txt?
+    pip3 install -r requirements.txt
 
 :: UPGRADES ::
 
@@ -51,3 +52,7 @@ Separate log for not 200 status codes?
 Flag to manipulate Interval time?
 
 Output to different type of log file (.csv/json)?
+
+:: BUGS ::
+
+Keyboardinterrupt is quite ugly when ctr+C during running program.
