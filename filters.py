@@ -7,14 +7,14 @@ def check_content_requirement(content_requirement, text):
         return False
 
 def get_content_requirement():
-    if config['check']['content_requirement'] is not '':
-        return config['check']['content_requirement']
+    if config['init']['content_requirement'] is not '':
+        return config['init']['content_requirement']
     else:
         return None
 
 def get_filter_str():
-    if config['check']['filter_str'] is not '':
-        return config['check']['filter_str']
+    if config['init']['filter_str'] is not '':
+        return config['init']['filter_str']
     else:
         return None
 

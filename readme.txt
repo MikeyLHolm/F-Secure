@@ -1,4 +1,3 @@
-
 Storing response in object?
 
 	I felt its easier to manipulate the response date later when its already in an object.
@@ -54,5 +53,3 @@ Flag to manipulate Interval time?
 Output to different type of log file (.csv/json)?
 
 :: BUGS ::
-
-Keyboardinterrupt is quite ugly when ctr+C during running program.
